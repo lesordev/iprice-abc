@@ -5,6 +5,7 @@ import {
   DashboardOutlined,
   DeploymentUnitOutlined,
   MenuOutlined,
+  ShoppingCartOutlined,
   SmileOutlined,
 } from '@ant-design/icons';
 import styled from '@emotion/styled';
@@ -120,6 +121,12 @@ export const AdminLayout = ({ children }: Props) => {
               icon: <SmileOutlined />,
               label: 'Service Management',
               onClick: () => navigate('/admin/customers'),
+            },
+            {
+              key: 'orders',
+              icon: <ShoppingCartOutlined />,
+              label: 'Order Management',
+              onClick: () => navigate('/admin/orders'),
             },
           ]}
         />
