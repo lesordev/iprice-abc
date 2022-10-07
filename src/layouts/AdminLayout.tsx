@@ -9,9 +9,12 @@ import {
   SmileOutlined,
 } from '@ant-design/icons';
 import styled from '@emotion/styled';
-import { Avatar, Button, Col, Layout, Menu, Row, Tooltip } from 'antd';
+import { useLocalStorage } from '@mantine/hooks';
+import { Avatar, Button, Col, Dropdown, Layout, Menu, Row } from 'antd';
 import { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useUserStore } from '#/recoil/user.recoil';
 
 const { Sider, Header, Content } = Layout;
 
@@ -57,9 +60,13 @@ interface Props {
 }
 
 export const AdminLayout = ({ children }: Props) => {
+  const [role, setRole] = useLocalStorage({ key: 'role' });
+  const [_, setUser] = useUserStore();
   const navigate = useNavigate();
 
   const [collapsed, setCollapsed] = useState(false);
+
+  if (!role) navigate('/login');
 
   return (
     <Layout className='h-screen'>
@@ -150,13 +157,26 @@ export const AdminLayout = ({ children }: Props) => {
               />
             </Col>
             <Col>
-              <Tooltip title='Lê Trung Lực' placement='leftBottom'>
+              <Dropdown
+                overlay={
+                  <div
+                    className='bg-white rounded px-4 py-2 border cursor-pointer border-solid border-slate-400'
+                    onClick={() => {
+                      setRole('');
+                      setUser(null);
+                    }}
+                  >
+                    Log out
+                  </div>
+                }
+                placement='bottomRight'
+              >
                 <Avatar
                   src='https://joeschmoe.io/api/v1/random'
                   size='large'
                   className='border-solid border-gray-300 border-[1px]'
                 />
-              </Tooltip>
+              </Dropdown>
             </Col>
           </Row>
         </Header>

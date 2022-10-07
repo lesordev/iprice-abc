@@ -7,10 +7,12 @@ import {
   DashboardPage,
   HomePage,
 } from './pages';
+import { LoginPage } from './pages/shared/LoginPage';
 
 export const App = () => {
   return useRoutes([
     { path: '/', element: <HomePage /> },
+    { path: '/login', element: <LoginPage /> },
     {
       path: '/admin',
       element: (

@@ -2,10 +2,11 @@ import { FileTextOutlined } from '@ant-design/icons';
 import { Button, Empty, Modal, Table, Tag, Tooltip, Typography } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { api } from '#/api';
 import { mockOrders } from '#/data/order';
-import { Order, OrderDetail } from '#/types';
+import { Order, OrderDetail, OrderResponse } from '#/types';
 
 const columns: ColumnType<Order>[] = [
   {
@@ -54,7 +55,33 @@ const columns: ColumnType<Order>[] = [
 ];
 
 export const AdminOrderManagePage = () => {
+  const [orders, setOrders] = useState<Order[]>(mockOrders);
   const [orderDetail, setOrderDetail] = useState<OrderDetail[] | null>(null);
+
+  useEffect(() => {
+    api.get<OrderResponse[]>('order/listbyprovider/1').then(({ data }) => {
+      setOrders(
+        data.map((e) => ({
+          id: e.orderId,
+          customer: {
+            fullName: 'unknow',
+            id: e.customerId,
+          },
+          detail: e.orderDetailList.map<OrderDetail>((d) => ({
+            product: {
+              name: 'unk',
+              id: d.productproviderId,
+            },
+            quantity: d.quantity,
+            unitPrice: d.unitPrice,
+          })),
+          orderDate: e.orderDate,
+          paymentType: e.paymentType,
+          status: e.shippingStatus,
+        }))
+      );
+    });
+  }, []);
 
   return (
     <>
@@ -62,8 +89,9 @@ export const AdminOrderManagePage = () => {
         <Typography.Title level={3}>Order Management</Typography.Title>
 
         <Table
+          rowKey={(e) => e.id}
           columns={columns}
-          dataSource={mockOrders}
+          dataSource={orders}
           onRow={(order) => {
             return {
               onClick: () => {
