@@ -9,12 +9,11 @@ import {
   SmileOutlined,
 } from '@ant-design/icons';
 import styled from '@emotion/styled';
-import { useLocalStorage } from '@mantine/hooks';
 import { Avatar, Button, Col, Dropdown, Layout, Menu, Row } from 'antd';
 import { ReactNode, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-import { useUserStore } from '#/recoil/user.recoil';
+import { useUserInfo } from '#/hooks/useUserInfo';
 
 const { Sider, Header, Content } = Layout;
 
@@ -60,13 +59,15 @@ interface Props {
 }
 
 export const AdminLayout = ({ children }: Props) => {
-  const [role, setRole] = useLocalStorage({ key: 'role' });
-  const [_, setUser] = useUserStore();
   const navigate = useNavigate();
+
+  const [user] = useUserInfo();
 
   const [collapsed, setCollapsed] = useState(false);
 
-  if (!role) navigate('/login');
+  if (!user) {
+    return <Navigate to='/login' />;
+  }
 
   return (
     <Layout className='h-screen'>
@@ -162,8 +163,7 @@ export const AdminLayout = ({ children }: Props) => {
                   <div
                     className='bg-white rounded px-4 py-2 border cursor-pointer border-solid border-slate-400'
                     onClick={() => {
-                      setRole('');
-                      setUser(null);
+                      //
                     }}
                   >
                     Log out

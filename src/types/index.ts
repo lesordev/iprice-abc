@@ -9,6 +9,7 @@ export interface Product {
 }
 
 export interface OrderDetail {
+  id: number;
   product: {
     id: number;
     name: string;
@@ -21,7 +22,7 @@ export interface Order {
   id: number;
   orderDate: Date | string;
   paymentType: string;
-  status: string;
+  status: OrderStatus;
   totalPrice?: number;
   customer: {
     id: number;
@@ -39,6 +40,7 @@ export interface User {
 }
 
 export enum OrderStatus {
+  Cancel = 'Cancel',
   New = 'New',
   GatheringAndPacking = 'Gathering and Packing',
   PackedAndDelivering = 'Packed and Delivering',
@@ -51,6 +53,7 @@ export interface OrderDetailResponse {
   quantity: number;
   orderId: number;
   productproviderId: number;
+  productName: string;
 }
 
 export interface OrderResponse {
@@ -60,5 +63,6 @@ export interface OrderResponse {
   paymentType: string;
   shippingStatus: OrderStatus;
   customerId: 1;
+  customerName: string;
   orderDetailList: OrderDetailResponse[];
 }

@@ -1,4 +1,3 @@
-import { useLocalStorage } from '@mantine/hooks';
 import {
   Button,
   Checkbox,
@@ -12,14 +11,13 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 
 import { mockUsers } from '#/data/users';
-import { useUserStore } from '#/recoil/user.recoil';
+import { useUserInfo } from '#/hooks/useUserInfo';
 
 export const LoginPage = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
-  const [_, setRole] = useLocalStorage({ key: 'role' });
-  const [_1, setUser] = useUserStore();
+  const [_, setUser] = useUserInfo();
 
   return (
     <section className='bg-gray-50 dark:bg-gray-900'>
@@ -81,7 +79,6 @@ export const LoginPage = () => {
                     message.error('Wrong username or password!');
                     return;
                   } else {
-                    setRole(user.role);
                     setUser(user);
                     message.success('Login successfully!');
                     navigate('/admin');
