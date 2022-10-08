@@ -146,7 +146,7 @@ export const AdminOrderManagePage = () => {
                 {OrderStatus.New}
               </Radio.Button>
               <Radio.Button
-                className='text-[geekblue]'
+                className='text-blue-900'
                 value={OrderStatus.GatheringAndPacking}
               >
                 {OrderStatus.GatheringAndPacking}
@@ -160,7 +160,7 @@ export const AdminOrderManagePage = () => {
               <Radio.Button className='text-[green]' value={OrderStatus.Done}>
                 {OrderStatus.Done}
               </Radio.Button>
-              <Radio.Button className='text-[grey]' value={OrderStatus.Cancel}>
+              <Radio.Button className='text-[red]' value={OrderStatus.Cancel}>
                 {OrderStatus.Cancel}
               </Radio.Button>
             </Radio.Group>
