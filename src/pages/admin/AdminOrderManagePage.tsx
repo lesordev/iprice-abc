@@ -241,12 +241,6 @@ export const AdminOrderManagePage = () => {
                 status={getShippingStatus(orderDetail.status, OrderStatus.New)}
                 title={`1. ${OrderStatus.New}`}
                 icon={<FileDoneOutlined />}
-                onClick={() =>
-                  updateStatus({
-                    id: orderDetail.orderId,
-                    status: OrderStatus.New,
-                  })
-                }
               />
               <Steps.Step
                 className='cursor-pointer'
@@ -256,12 +250,13 @@ export const AdminOrderManagePage = () => {
                 )}
                 title={`2. ${OrderStatus.GatheringAndPacking}`}
                 icon={<CodepenOutlined />}
-                onClick={() =>
-                  updateStatus({
-                    id: orderDetail.orderId,
-                    status: OrderStatus.GatheringAndPacking,
-                  })
-                }
+                onClick={() => {
+                  if (orderDetail.status === OrderStatus.New)
+                    updateStatus({
+                      id: orderDetail.orderId,
+                      status: OrderStatus.GatheringAndPacking,
+                    });
+                }}
               />
               <Steps.Step
                 className='cursor-pointer'
@@ -271,24 +266,26 @@ export const AdminOrderManagePage = () => {
                 )}
                 title={`3. ${OrderStatus.PackedAndDelivering}`}
                 icon={<CarOutlined />}
-                onClick={() =>
-                  updateStatus({
-                    id: orderDetail.orderId,
-                    status: OrderStatus.PackedAndDelivering,
-                  })
-                }
+                onClick={() => {
+                  if (orderDetail.status === OrderStatus.GatheringAndPacking)
+                    updateStatus({
+                      id: orderDetail.orderId,
+                      status: OrderStatus.PackedAndDelivering,
+                    });
+                }}
               />
               <Steps.Step
                 className='cursor-pointer'
                 status={getShippingStatus(orderDetail.status, OrderStatus.Done)}
                 title={`4. ${OrderStatus.Done}`}
                 icon={<CheckCircleOutlined />}
-                onClick={() =>
-                  updateStatus({
-                    id: orderDetail.orderId,
-                    status: OrderStatus.Done,
-                  })
-                }
+                onClick={() => {
+                  if (orderDetail.status === OrderStatus.PackedAndDelivering)
+                    updateStatus({
+                      id: orderDetail.orderId,
+                      status: OrderStatus.Done,
+                    });
+                }}
               />
             </Steps>
             <Table
