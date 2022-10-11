@@ -2,10 +2,10 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Tag, Typography } from 'antd';
 import { random } from 'lodash';
 
-import { Product } from '#/types';
+import { Product, ProductProvider } from '#/types';
 
 interface Props {
-  product: Partial<Product>;
+  product: Partial<ProductProvider>;
   showPrice?: boolean;
   showStatus?: boolean;
   showQuantity?: boolean;
@@ -21,7 +21,7 @@ export const ProductCard = ({
   onEdit,
   onDelete,
 }: Props) => {
-  const { productName, price, description, status, quantity } = product;
+  const { name: productName, description, quantity, unitPrice } = product;
   return (
     <Card
       className='w-80 rounded-md overflow-hidden border-none shadow-xl'
@@ -68,7 +68,7 @@ export const ProductCard = ({
 
       {showPrice && (
         <Typography className='font-semibold text-red-600 text-lg'>
-          {(price ?? 0).toLocaleString('vi-VN', {
+          {(unitPrice ?? 0).toLocaleString('vi-VN', {
             style: 'currency',
             currency: 'VND',
           })}

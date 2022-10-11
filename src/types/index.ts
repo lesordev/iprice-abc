@@ -1,11 +1,11 @@
-export interface Product {
-  id: number;
+export interface ProductResponse {
+  productId: number;
   productName: string;
   description: string;
-  price: number;
-  quantity: number;
   image: string;
   status: boolean;
+  productcategoryId: number;
+  manufacturerId: number;
 }
 
 export interface OrderDetail {
@@ -65,4 +65,53 @@ export interface OrderResponse {
   customerId: 1;
   customerName: string;
   orderDetailList: OrderDetailResponse[];
+}
+
+export interface Manufacturer {
+  id: number;
+  name: string;
+  isActive: boolean;
+}
+
+export interface ManufacturerResponse {
+  manufacturerId: number;
+  manufacturerName: string;
+  status: boolean;
+}
+
+export interface ProductCategory {
+  id: number;
+  name: string;
+  isActive: boolean;
+}
+
+export interface ProductCategoryResponse {
+  productcategoryId: number;
+  productcategoryName: string;
+  status: boolean;
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  isActive: boolean;
+  category: ProductCategory;
+  manufacturer: Manufacturer;
+}
+
+export interface ProductProviderResponse {
+  productproviderId: number;
+  unitPrice: number;
+  quantity: number;
+  rating: number;
+  status: boolean;
+  product_id: number;
+  provider_id: number;
+}
+
+export interface ProductProvider extends Product {
+  unitPrice: number;
+  quantity: number;
 }

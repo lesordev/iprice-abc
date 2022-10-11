@@ -5,15 +5,24 @@ import {
   DashboardOutlined,
   DeploymentUnitOutlined,
   MenuOutlined,
-  ShoppingCartOutlined,
   SmileOutlined,
 } from '@ant-design/icons';
 import styled from '@emotion/styled';
-import { Avatar, Button, Col, Dropdown, Layout, Menu, Row } from 'antd';
+import {
+  Avatar,
+  Button,
+  Col,
+  Dropdown,
+  Layout,
+  Menu,
+  Row,
+  Typography,
+} from 'antd';
 import { ReactNode, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import { useUserInfo } from '#/hooks/useUserInfo';
+import { IconAdd, IconOrder } from '#/shared/icons';
 
 const { Sider, Header, Content } = Layout;
 
@@ -61,7 +70,7 @@ interface Props {
 export const AdminLayout = ({ children }: Props) => {
   const navigate = useNavigate();
 
-  const [user] = useUserInfo();
+  const [user, setUser] = useUserInfo();
 
   const [collapsed, setCollapsed] = useState(false);
 
@@ -84,7 +93,7 @@ export const AdminLayout = ({ children }: Props) => {
           justify='center'
           align='middle'
         >
-          Brand
+          {/*  brand here */}
         </Row>
         <StyledSiderMenu
           mode='inline'
@@ -111,30 +120,43 @@ export const AdminLayout = ({ children }: Props) => {
               icon: <DeploymentUnitOutlined />,
               label: 'Service Management',
               onClick: () => navigate('/admin/services'),
+              className: user.role !== 'ADMIN' ? 'hidden' : '',
             },
             {
               key: 'products',
               icon: <BlockOutlined />,
               label: 'Product Management',
               onClick: () => navigate('/admin/products'),
+              className: user.role !== 'ADMIN' ? 'hidden' : '',
             },
             {
               key: 'providers',
               icon: <ApartmentOutlined />,
               label: 'Provider Management',
               onClick: () => navigate('/admin/providers'),
+              className: user.role !== 'ADMIN' ? 'hidden' : '',
             },
             {
               key: 'customers',
               icon: <SmileOutlined />,
               label: 'Service Management',
               onClick: () => navigate('/admin/customers'),
+              className: user.role !== 'ADMIN' ? 'hidden' : '',
             },
+            // Provider
             {
               key: 'orders',
-              icon: <ShoppingCartOutlined />,
+              icon: <IconOrder className='w-5 h-5' />,
               label: 'Order Management',
               onClick: () => navigate('/admin/orders'),
+              className: user.role !== 'PROVIDER' ? 'hidden' : '',
+            },
+            {
+              key: 'p-product',
+              icon: <IconAdd className='w-5 h-5' />,
+              label: 'Register Product',
+              onClick: () => navigate('/admin/p-products'),
+              className: user.role !== 'PROVIDER' ? 'hidden' : '',
             },
           ]}
         />
@@ -163,7 +185,7 @@ export const AdminLayout = ({ children }: Props) => {
                   <div
                     className='bg-white rounded px-4 py-2 border cursor-pointer border-solid border-slate-400'
                     onClick={() => {
-                      //
+                      setUser(null);
                     }}
                   >
                     Log out
@@ -171,11 +193,14 @@ export const AdminLayout = ({ children }: Props) => {
                 }
                 placement='bottomRight'
               >
-                <Avatar
-                  src='https://joeschmoe.io/api/v1/random'
-                  size='large'
-                  className='border-solid border-gray-300 border-[1px]'
-                />
+                <div className='flex items-center gap-2'>
+                  <Avatar
+                    src='https://joeschmoe.io/api/v1/random'
+                    size='large'
+                    className='border-solid border-gray-300 border-[1px]'
+                  />
+                  <Typography>{user.role.toLowerCase()}</Typography>
+                </div>
               </Dropdown>
             </Col>
           </Row>

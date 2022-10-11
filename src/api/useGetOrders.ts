@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { api } from '.';
+import { api } from './api';
 
 import { Order, OrderDetail, OrderResponse } from '#/types';
 
@@ -9,7 +9,7 @@ interface Props {
   id: number;
 }
 
-export function useGetAllOrder({ by, id }: Props) {
+export const useGetAllOrder = ({ by, id }: Props) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -52,4 +52,4 @@ export function useGetAllOrder({ by, id }: Props) {
   }, []);
 
   return { refetch: fetch, orders, loading };
-}
+};

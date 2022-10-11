@@ -3,7 +3,6 @@ import {
   CheckCircleOutlined,
   CodepenOutlined,
   FileDoneOutlined,
-  FileTextOutlined,
 } from '@ant-design/icons';
 import {
   Button,
@@ -15,7 +14,6 @@ import {
   Steps,
   Table,
   Tag,
-  Tooltip,
   Typography,
 } from 'antd';
 import { ColumnType } from 'antd/lib/table';
@@ -83,16 +81,6 @@ const columns: ColumnType<Order>[] = [
     title: 'Order Date',
     dataIndex: 'orderDate',
     render: (val) => dayjs(val).format('DD/MM/YYYY'),
-  },
-  {
-    title: 'Action',
-    render: () => (
-      <>
-        <Tooltip title='View detail'>
-          <FileTextOutlined className='text-2xl text-blue-400' />
-        </Tooltip>
-      </>
-    ),
   },
 ];
 
@@ -281,13 +269,6 @@ export const AdminOrderManagePage = () => {
                 status={getShippingStatus(orderDetail.status, OrderStatus.Done)}
                 title={`4. ${OrderStatus.Done}`}
                 icon={<CheckCircleOutlined />}
-                onClick={() => {
-                  if (orderDetail.status === OrderStatus.PackedAndDelivering)
-                    updateStatus({
-                      id: orderDetail.orderId,
-                      status: OrderStatus.Done,
-                    });
-                }}
               />
             </Steps>
             <Table

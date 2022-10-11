@@ -1,12 +1,12 @@
-import { api } from '.';
 import { OrderStatus } from './../types/index';
+import { api } from './api';
 
 interface Props {
   id: number;
   status: OrderStatus;
 }
 
-export function useUpdateOrderStatus(callback?: () => void) {
+export const useUpdateOrderStatus = (callback?: () => void) => {
   return ({ id, status }: Props) => {
     api
       .post(
@@ -16,4 +16,4 @@ export function useUpdateOrderStatus(callback?: () => void) {
       )
       .finally(callback);
   };
-}
+};
