@@ -26,6 +26,11 @@ export const useGetProducts = () => {
           isActive: true,
           name: '',
         },
+        category: {
+          id: e.productcategoryId,
+          name: '',
+          isActive: true,
+        },
       }))
     );
 

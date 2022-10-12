@@ -2,7 +2,12 @@ import { Select } from 'antd';
 
 import { useGetProducts } from '#/api';
 
-export const ProductSelect = () => {
+interface Props {
+  value?: number;
+  onChange?: (id: number) => void;
+}
+
+export const ProductSelect = ({ value, onChange }: Props) => {
   const { products, loading } = useGetProducts();
 
   return (
@@ -13,6 +18,8 @@ export const ProductSelect = () => {
         label: e.name,
         value: e.id,
       }))}
+      value={value}
+      onChange={onChange}
       placeholder='Select product ...'
       showSearch
       filterOption={(input, option) =>

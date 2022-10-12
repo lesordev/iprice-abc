@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Card, Col, Row, Tag, Typography } from 'antd';
+import { Card, Col, Popconfirm, Row, Tag, Typography } from 'antd';
 import { random } from 'lodash';
 
 import { Product, ProductProvider } from '#/types';
@@ -44,17 +44,19 @@ export const ProductCard = ({
           </Col>
           <Col>Edit</Col>
         </Row>,
-        <Row
-          gutter={10}
-          justify='center'
-          className='text-red-600'
-          onClick={() => onDelete?.(product)}
+        <Popconfirm
+          title='Are you sure to delete this product?'
+          onConfirm={() => {
+            onDelete?.(product);
+          }}
         >
-          <Col>
-            <DeleteOutlined />
-          </Col>
-          <Col>Delete</Col>
-        </Row>,
+          <Row gutter={10} justify='center' className='text-red-600'>
+            <Col>
+              <DeleteOutlined />
+            </Col>
+            <Col>Delete</Col>
+          </Row>
+        </Popconfirm>,
       ]}
     >
       <Card.Meta

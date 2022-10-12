@@ -109,9 +109,12 @@ export interface ProductProviderResponse {
   status: boolean;
   product_id: number;
   provider_id: number;
+  personalDescription: string;
+  productName: string;
 }
 
 export interface ProductProvider extends Product {
   unitPrice: number;
   quantity: number;
+  description: string;
 }
