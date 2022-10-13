@@ -114,6 +114,9 @@ export interface ProductProviderResponse {
 }
 
 export interface ProductProvider extends Product {
+  product: {
+    id: number;
+  };
   unitPrice: number;
   quantity: number;
   description: string;

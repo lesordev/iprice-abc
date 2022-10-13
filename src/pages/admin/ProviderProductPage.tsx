@@ -23,6 +23,7 @@ export const ProviderProductPage = () => {
   const [loading, setLoading] = useState(false);
   const [showRegisModal, setShowRegisModal] = useState(false);
   const [showInactive, setShowInactive] = useState(false);
+  const [editData, setEditData] = useState<ProductProvider>();
 
   const [productsProvider, setProductsProvider] = useState<ProductProvider[]>(
     []
@@ -31,7 +32,7 @@ export const ProviderProductPage = () => {
   useEffect(() => {
     (async () => {
       const { data } = await api.get<ProductProviderResponse[]>(
-        `/pprovider/listbyprovider/${1}`
+        `/pprovider/provider/listbyprovider/${1}`
       );
       setProductsProvider(
         data.map((e) => ({
@@ -44,6 +45,9 @@ export const ProviderProductPage = () => {
           name: e.productName,
           quantity: e.quantity,
           unitPrice: e.unitPrice,
+          product: {
+            id: e.product_id,
+          },
         }))
       );
     })();
@@ -56,8 +60,6 @@ export const ProviderProductPage = () => {
       </div>
     );
   }
-
-  console.log(productsProvider);
 
   return (
     <>
@@ -88,6 +90,7 @@ export const ProviderProductPage = () => {
         <div className='grid gap-4 grid-cols-4 mt-8 justify-items-center'>
           {productsProvider
             .filter((e) => (showInactive ? true : e.isActive))
+            .sort((a, b) => (!a.isActive && b.isActive ? 1 : -1))
             .map((e) => (
               <ProductCard
                 key={e.id}
@@ -103,6 +106,17 @@ export const ProviderProductPage = () => {
                   }
                   setLoading(false);
                 }}
+                onEdit={(product) => {
+                  setShowRegisModal(true);
+                  setEditData(product);
+                  form.setFieldsValue({
+                    unitPrice: product.unitPrice,
+                    quantity: product.quantity,
+                    product_id: product.product.id,
+                    personalDescription: product.description,
+                    status: product.isActive,
+                  });
+                }}
               />
             ))}
         </div>
@@ -111,30 +125,64 @@ export const ProviderProductPage = () => {
       <Modal
         title='Regis product'
         open={showRegisModal}
-        onCancel={() => setShowRegisModal(false)}
+        onCancel={() => {
+          setShowRegisModal(false);
+          setEditData(undefined);
+
+          form.setFieldsValue({
+            product_id: undefined,
+            unitPrice: undefined,
+            personalDescription: undefined,
+            quantity: undefined,
+            status: undefined,
+          });
+        }}
         closable={false}
         onOk={async () => {
           setLoading(true);
+          const values = form.getFieldsValue();
           const hasTouched = form.isFieldsTouched(true);
-          const hasErrors = form.getFieldsError().some((e) => e.errors.length);
-          const { unitPrice, quantity, personalDescription, product_id } =
-            form.getFieldsValue();
+          const hasErrors =
+            form.getFieldsError().some((e) => e.errors.length) ||
+            Object.values(values).some((e) => !e);
+          const {
+            unitPrice,
+            quantity,
+            personalDescription,
+            product_id,
+            status,
+          } = values;
 
-          if (hasTouched && !hasErrors) {
-            await api.post('/pprovider/list', {
+          if (!editData) {
+            if (hasTouched && !hasErrors) {
+              await api.post('/pprovider/list', {
+                unitPrice,
+                quantity,
+                personalDescription,
+                rating: 0,
+                status: true,
+                product_id,
+                provider_id: 1,
+              });
+              message.success('Register product successfully!');
+              setShowRegisModal(false);
+            } else {
+              message.error('You input is not valid!');
+            }
+          } else {
+            await api.put(`/pprovider/list/${1}`, {
               unitPrice,
               quantity,
               personalDescription,
               rating: 0,
-              status: true,
+              status,
               product_id,
               provider_id: 1,
             });
-
-            message.success('Register product successfully!');
+            message.success('Update product successfully!');
             setShowRegisModal(false);
-          } else {
-            message.error('You input is not valid!');
+            setEditData(undefined);
+            form.resetFields();
           }
 
           setLoading(false);
@@ -142,7 +190,7 @@ export const ProviderProductPage = () => {
       >
         <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
           <Form.Item label='Product' name='product_id' required>
-            <ProductSelect />
+            <ProductSelect {...(editData && { disabled: true })} />
           </Form.Item>
           <Form.Item
             label='Price'
@@ -171,6 +219,11 @@ export const ProviderProductPage = () => {
           >
             <InputNumber className='w-full' min={0} />
           </Form.Item>
+          {editData && (
+            <Form.Item label='Status' name='status' valuePropName='checked'>
+              <Switch />
+            </Form.Item>
+          )}
         </Form>
       </Modal>
     </>

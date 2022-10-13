@@ -5,13 +5,15 @@ import { useGetProducts } from '#/api';
 interface Props {
   value?: number;
   onChange?: (id: number) => void;
+  disabled?: boolean;
 }
 
-export const ProductSelect = ({ value, onChange }: Props) => {
+export const ProductSelect = ({ value, onChange, disabled }: Props) => {
   const { products, loading } = useGetProducts();
 
   return (
     <Select
+      disabled={disabled}
       className='w-full'
       loading={loading}
       options={products.map((e) => ({
