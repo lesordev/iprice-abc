@@ -170,7 +170,7 @@ export const ProviderProductPage = () => {
               message.error('You input is not valid!');
             }
           } else {
-            await api.put(`/pprovider/list/${1}`, {
+            await api.put(`/pprovider/list/${editData.id}`, {
               unitPrice,
               quantity,
               personalDescription,

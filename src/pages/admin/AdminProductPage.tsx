@@ -96,7 +96,7 @@ export const AdminProductPage = () => {
               .map((product) => (
                 <ProductCard
                   key={product.id}
-                  product={product}
+                  product={product as any}
                   // showPrice
                   showQuantity
                   showStatus
