@@ -213,12 +213,16 @@ export const AdminOrderManagePage = () => {
                 {orderDetail.status !== OrderStatus.Cancel && (
                   <Button
                     type='primary'
-                    onClick={() =>
-                      updateStatus({
-                        id: orderDetail.orderId,
-                        status: OrderStatus.Cancel,
-                      })
-                    }
+                    onClick={() => {
+                      if (
+                        orderDetail.status !== OrderStatus.PackedAndDelivering
+                      ) {
+                        updateStatus({
+                          id: orderDetail.orderId,
+                          status: OrderStatus.Cancel,
+                        });
+                      }
+                    }}
                   >
                     Cancel Order
                   </Button>
