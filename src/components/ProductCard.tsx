@@ -1,6 +1,5 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Badge, Card, Col, Popconfirm, Row, Tag, Typography } from 'antd';
-import { random } from 'lodash';
 
 import { ProductProvider } from '#/types';
 
@@ -27,6 +26,7 @@ export const ProductCard = <T extends ProductProvider>({
     quantity,
     unitPrice,
     isActive,
+    image,
   } = product;
   return (
     <Badge.Ribbon
@@ -37,9 +37,10 @@ export const ProductCard = <T extends ProductProvider>({
         className='w-80 rounded-md overflow-hidden border-none shadow-xl'
         cover={
           <img
+            className='object-contain'
             width={320}
             height={240}
-            src={`https://picsum.photos/id/${random(1000)}/320/240`}
+            src={image}
           />
         }
         actions={[

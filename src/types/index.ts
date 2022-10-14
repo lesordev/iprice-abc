@@ -105,6 +105,7 @@ export interface ProductProviderResponse {
   productproviderId: number;
   unitPrice: number;
   quantity: number;
+  image: string;
   rating: number;
   status: boolean;
   product_id: number;

@@ -39,7 +39,7 @@ export const ProviderProductPage = () => {
           id: e.productproviderId,
           category: { id: -1, isActive: true, name: '' },
           description: e.personalDescription,
-          image: '',
+          image: e.image,
           isActive: e.status,
           manufacturer: { id: -1, name: '', isActive: true },
           name: e.productName,
