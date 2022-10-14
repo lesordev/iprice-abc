@@ -70,7 +70,7 @@ export const ProviderProductPage = () => {
           </Col>
           <Col>
             <Button type='primary' onClick={() => setShowRegisModal(true)}>
-              Regis Product
+              Register Product
             </Button>
           </Col>
         </Row>
@@ -123,7 +123,7 @@ export const ProviderProductPage = () => {
       </div>
 
       <Modal
-        title='Regis product'
+        title='Register product'
         open={showRegisModal}
         onCancel={() => {
           setShowRegisModal(false);
@@ -198,7 +198,7 @@ export const ProviderProductPage = () => {
             name='unitPrice'
             rules={[{ required: true, message: 'Price must be greater 0.' }]}
           >
-            <InputNumber className='w-full' min={0} />
+            <InputNumber className='w-full' min={0} step={1000} />
           </Form.Item>
           <Form.Item
             label='Description'
