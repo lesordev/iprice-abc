@@ -153,7 +153,13 @@ export const ProviderProductPage = () => {
             status,
           } = values;
 
-          if (!editData) {
+          const isEdit = productsProvider.find(
+            (e) => e.product.id === product_id
+          );
+
+          console.log(!editData && !isEdit);
+
+          if (!editData && !isEdit) {
             if (hasTouched && !hasErrors) {
               await api.post('/pprovider/list', {
                 unitPrice,
@@ -174,7 +180,7 @@ export const ProviderProductPage = () => {
               });
             }
           } else {
-            await api.put(`/pprovider/list/${editData.id}`, {
+            await api.put(`/pprovider/list/${editData?.id ?? isEdit?.id}`, {
               unitPrice,
               quantity,
               personalDescription,
