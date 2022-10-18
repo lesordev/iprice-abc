@@ -210,23 +210,24 @@ export const AdminOrderManagePage = () => {
                 </Typography.Title>
               </Col>
               <Col flex={1} className='flex justify-end'>
-                {orderDetail.status !== OrderStatus.Cancel && (
-                  <Button
-                    type='primary'
-                    onClick={() => {
-                      if (
-                        orderDetail.status !== OrderStatus.PackedAndDelivering
-                      ) {
-                        updateStatus({
-                          id: orderDetail.orderId,
-                          status: OrderStatus.Cancel,
-                        });
-                      }
-                    }}
-                  >
-                    Cancel Order
-                  </Button>
-                )}
+                {orderDetail.status !== OrderStatus.Cancel &&
+                  orderDetail.status !== OrderStatus.PackedAndDelivering && (
+                    <Button
+                      type='primary'
+                      onClick={() => {
+                        if (
+                          orderDetail.status !== OrderStatus.PackedAndDelivering
+                        ) {
+                          updateStatus({
+                            id: orderDetail.orderId,
+                            status: OrderStatus.Cancel,
+                          });
+                        }
+                      }}
+                    >
+                      Cancel Order
+                    </Button>
+                  )}
               </Col>
             </Row>
             <Steps className='mb-4'>
