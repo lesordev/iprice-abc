@@ -166,8 +166,12 @@ export const ProviderProductPage = () => {
               });
               message.success('Register product successfully!');
               setShowRegisModal(false);
+              form.resetFields();
             } else {
-              message.error('You input is not valid!');
+              message.error({
+                content: 'You input is not valid!',
+                key: 'error-form-upsert-prod',
+              });
             }
           } else {
             await api.put(`/pprovider/list/${editData.id}`, {
@@ -198,7 +202,12 @@ export const ProviderProductPage = () => {
             name='unitPrice'
             rules={[{ required: true, message: 'Price must be greater 0.' }]}
           >
-            <InputNumber className='w-full' min={0} step={1000} />
+            <InputNumber
+              className='w-full'
+              min={0}
+              step={1000}
+              placeholder='Price must be greater than 0'
+            />
           </Form.Item>
           <Form.Item
             label='Description'
@@ -217,7 +226,11 @@ export const ProviderProductPage = () => {
             name='quantity'
             rules={[{ required: true, message: 'Quantity must be greater 0.' }]}
           >
-            <InputNumber className='w-full' min={0} />
+            <InputNumber
+              className='w-full'
+              min={0}
+              placeholder='Quantity must be greater than 0'
+            />
           </Form.Item>
           {editData && (
             <Form.Item label='Status' name='status' valuePropName='checked'>
