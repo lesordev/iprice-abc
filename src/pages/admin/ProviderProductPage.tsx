@@ -185,7 +185,7 @@ export const ProviderProductPage = () => {
               quantity,
               personalDescription,
               rating: 0,
-              status,
+              status: status ?? isEdit?.isActive ?? true,
               product_id,
               provider_id: 1,
             });
